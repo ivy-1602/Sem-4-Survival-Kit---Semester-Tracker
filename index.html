@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Uma's Sem 4 — Things to Do</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,900;1,300;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #faf7f2;
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --faint: #e8e2d9;
+    --muted: #9e9489;
+    --accent1: #d4521a;
+    --accent2: #3a7d5c;
+    --accent3: #5b4fcf;
+    --accent4: #c4952a;
+    --accent5: #c43a6a;
+    --accent6: #2a7ab5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Mono', monospace;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 4rem;
+  }
+
+  /* grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  header {
+    padding: 3.5rem 2rem 2.5rem;
+    max-width: 760px;
+    margin: 0 auto;
+    border-bottom: 1.5px solid var(--faint);
+    position: relative;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .header-name {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.8rem, 8vw, 4.5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .header-name span {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent1);
+  }
+
+  .header-sub {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .header-sub span { display: flex; align-items: center; gap: 0.3rem; }
+
+  /* progress bar */
+  .overall-progress {
+    margin: 2rem auto 0;
+    max-width: 760px;
+    padding: 0 2rem;
+  }
+
+  .prog-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+
+  .prog-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .prog-number {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .prog-track {
+    height: 4px;
+    background: var(--faint);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .prog-fill {
+    height: 100%;
+    background: var(--accent1);
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .prog-meta {
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+  }
+
+  /* main layout */
+  main {
+    max-width: 760px;
+    margin: 2.5rem auto 0;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* subject card */
+  .subject {
+    background: var(--paper);
+    border: 1.5px solid var(--faint);
+    border-radius: 12px;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .subject:nth-child(1) { animation-delay: 0.05s; }
+  .subject:nth-child(2) { animation-delay: 0.1s; }
+  .subject:nth-child(3) { animation-delay: 0.15s; }
+  .subject:nth-child(4) { animation-delay: 0.2s; }
+  .subject:nth-child(5) { animation-delay: 0.25s; }
+  .subject:nth-child(6) { animation-delay: 0.3s; }
+
+  .subject-top {
+    padding: 1.1rem 1.4rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    border-bottom: 1px solid var(--faint);
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .subject-top:hover { background: #faf8f5; }
+
+  .subject-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .subject-title-block { flex: 1; }
+
+  .subject-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .subject-code {
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.1rem;
+  }
+
+  .subject-badge {
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .subject-chevron {
+    font-size: 0.55rem;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.25s;
+  }
+
+  .subject-chevron.open { transform: rotate(90deg); }
+
+  /* color bar at top of card */
+  .subject-bar {
+    height: 3px;
+    width: 100%;
+  }
+
+  /* group */
+  .group { padding: 0; }
+
+  .group-name {
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.85rem 1.4rem 0.3rem;
+    border-top: 1px dashed var(--faint);
+  }
+
+  .group:first-child .group-name { border-top: none; }
+
+  /* task */
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.55rem 1.4rem;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+
+  .task:hover { background: #faf8f5; }
+
+  .task-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid #ccc;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .task.done .task-check { color: #fff; }
+
+  .task-text {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #333;
+    white-space: pre-line;
+    transition: color 0.18s;
+  }
+
+  .task.done .task-text {
+    color: #bbb;
+    text-decoration: line-through;
+    text-decoration-color: #ccc;
+  }
+
+  /* subject body hidden */
+  .subject-body { display: block; }
+  .subject-body.collapsed { display: none; }
+
+  /* footer */
+  footer {
+    max-width: 760px;
+    margin: 3rem auto 0;
+    padding: 0 2rem;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 500px) {
+    header, .overall-progress, main, footer { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .header-name { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">📓 Personal Tracker · 2025–26</div>
+  <div class="header-name">Uma<br><span>Salunke</span></div>
+  <div class="header-sub">
+    <span>SE · AI &amp; ML</span>
+    <span>4th Semester</span>
+    <span>SPPU · 2024 Pattern</span>
+  </div>
+</header>
+
+<div class="overall-progress">
+  <div class="prog-row">
+    <span class="prog-label">Overall Progress</span>
+    <span class="prog-number" id="pct">0%</span>
+  </div>
+  <div class="prog-track">
+    <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+  </div>
+  <div class="prog-meta" id="prog-meta">0 of 0 done</div>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  <span>Click task → mark done</span>
+  <span>Click subject → collapse</span>
+  <span>Progress saves in browser</span>
+</footer>
+
+<script>
+const SUBJECTS = [
+  {
+    code: "PCC-209-AIM",
+    name: "Database Management System Lab",
+    marks: "TW: 25M · PR: 25M",
+    color: "#d4521a",
+    groups: [
+      {
+        name: "Group A — Study of Databases",
+        tasks: [
+          "Study MySQL — efficiency, scalability, performance & transactional properties",
+          "Study SQLite — what it is, its uses, comparison with SQL"
+        ]
+      },
+      {
+        name: "Group B — MySQL",
+        tasks: [
+          "Design a DB with ≥2 entities & draw ER/EER diagram",
+          "Implement the database using DDL & DML statements",
+          "Create tables with primary key, foreign key & constraints",
+          "Perform: Alter table, Drop table, Index operations",
+          "Perform: Relational operators, Pattern matching",
+          "Perform: Aggregate functions with GROUP BY & HAVING",
+          "Perform: Nested queries, Set operators, Views, Sorting"
+        ]
+      },
+      {
+        name: "Group C — PL/SQL",
+        tasks: [
+          "Write & execute a PL/SQL stored procedure and function",
+          "Write & execute suitable database triggers"
+        ]
+      }
+    ]
+  },
+  {
+    code: "PCC-210-AIM",
+    name: "Foundation of Machine Learning Lab",
+    marks: "OR: 25M",
+    color: "#3a7d5c",
+    groups: [
+      {
+        name: "Assignments (All 8)",
+        tasks: [
+          "Assignment 1 — Supervised & Unsupervised ML using scikit-learn\nCase Study: Customer Segmentation for a Retail Store",
+          "Assignment 2 — Feature extraction techniques\nCase Study: Sentiment Analysis of Movie Reviews",
+          "Assignment 3 — Naive Bayes classifier + evaluate (confusion matrix, accuracy, precision, recall, F1)\nCase Study: SMS Spam Detection",
+          "Assignment 4 — Decision Tree classifier + evaluate\nCase Study: Loan Approval Prediction System",
+          "Assignment 5 — Simple Linear Regression (MAE, MSE, RMSE, R²)\nCase Study: Predicting Student Scores Based on Study Hours",
+          "Assignment 6 — Logistic Regression binary classifier\nCase Study: Predicting Diabetes in Patients",
+          "Assignment 7 — K-Means Clustering + evaluate\nCase Study: Anomaly Detection in Network Security",
+          "Assignment 8 — K-Medoid Clustering + evaluate\nCase Study: Telecom Customer Plan Grouping"
+        ]
+      }
+    ]
+  },
+  {
+    code: "VSE-270-AIM",
+    name: "Digital Marketing & Social Media",
+    marks: "TW: 25M · PR: 25M",
+    color: "#c4952a",
+    groups: [
+      {
+        name: "Lab Assignments (All 8)",
+        tasks: [
+          "Assignment 1 — Keyword Research & SEO Optimization using SEMrush",
+          "Assignment 2 — Social Media Content Calendar using Hootsuite (1-week plan)",
+          "Assignment 3 — Email Marketing Campaign using Mailchimp or Constant Contact",
+          "Assignment 4 — Social Media Advertising Campaign on Facebook or Instagram",
+          "Assignment 5 — Instagram Influencer Outreach Plan for brand promotion",
+          "Assignment 6 — Canva designs for \"Tasty Bites Kitchen\" YouTube channel (banner, logo, thumbnail)",
+          "Assignment 7 — Web Analytics using Google Analytics",
+          "Assignment 8 — Create a website using WordPress & Elementor"
+        ]
+      }
+    ]
+  },
+  {
+    code: "EEM-241-AIM",
+    name: "E-Commerce",
+    marks: "TW: 25M · Any 6 of 8 labs",
+    color: "#5b4fcf",
+    groups: [
+      {
+        name: "Lab Assignments (pick any 6)",
+        tasks: [
+          "Lab 1 — Static E-Commerce Website (HTML/CSS)",
+          "Lab 2 — Product Listing & Search Functionality (JS/PHP, MySQL)",
+          "Lab 3 — Payment Workflow via Sandbox APIs (PayPal/Stripe)",
+          "Lab 4 — Digital Marketing Campaign: SEO + Email using Mailchimp",
+          "Lab 5 — Shopping Cart with Session Handling (PHP/JavaScript)",
+          "Lab 6 — Business Model Canvas for an E-Commerce idea (Canva)",
+          "Lab 7 — Security Features for Login Page (bcrypt, CAPTCHA)",
+          "Lab 8 — Log Analysis & Threat Detection Simulation (Python, Regex)"
+        ]
+      },
+      {
+        name: "Mini Project — Group of 3–4 students (pick one)",
+        tasks: [
+          "Option 1 — End-to-End E-Commerce Web App with Payment Gateway",
+          "Option 2 — AI-Powered Product Recommendation Engine",
+          "Option 3 — E-Commerce Risk & Threat Monitoring Dashboard",
+          "Option 4 — Comparison Tool for E-Payment Options",
+          "Option 5 — Startup Model Planner for E-Commerce Businesses"
+        ]
+      }
+    ]
+  },
+  {
+    code: "AEC-281-AIM",
+    name: "Modern Indian Language (Marathi / Hindi)",
+    marks: "TW: 50M",
+    color: "#c43a6a",
+    groups: [
+      {
+        name: "Term Work",
+        tasks: [
+          "Unit I & II — Language & personality; mass media writing (newspaper, speech, documentary scripts)",
+          "Unit III & IV — New media types (blog, Facebook, Twitter); website/blog writing; business correspondence"
+        ]
+      }
+    ]
+  },
+  {
+    code: "All Labs",
+    name: "Journal Checklist",
+    marks: "Applies to every practical subject",
+    color: "#2a7ab5",
+    groups: [
+      {
+        name: "Common Requirements",
+        tasks: [
+          "Maintain handwritten journal for every lab subject",
+          "Journal format: Prologue → Certificate → Table of Contents → Write-ups",
+          "Each entry: Title, Date, Objectives, Problem Statement, Theory, Algorithm/Flowchart, Test Cases, Conclusion",
+          "Submit softcopy of all program codes with sample output",
+          "Get journal certified before Practical Examination",
+          "Attend all practicals — attendance is part of evaluation"
+        ]
+      }
+    ]
+  }
+];
+
+// flatten all tasks to build IDs
+let allTasks = [];
+SUBJECTS.forEach((s, si) => {
+  s.groups.forEach((g, gi) => {
+    g.tasks.forEach((t, ti) => {
+      allTasks.push(`${si}-${gi}-${ti}`);
+    });
+  });
+});
+
+const TOTAL = allTasks.length;
+
+// load from localStorage
+function loadState() {
+  try { return JSON.parse(localStorage.getItem('uma_sem4') || '{}'); } catch(e) { return {}; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem('uma_sem4', JSON.stringify(state)); } catch(e) {}
+}
+
+let state = loadState();
+let collapsed = {};
+
+function countDone() {
+  return allTasks.filter(id => state[id]).length;
+}
+
+function updateProgress() {
+  const done = countDone();
+  const pct = Math.round(done / TOTAL * 100);
+  document.getElementById('pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-meta').textContent = `${done} of ${TOTAL} done`;
+  // update color based on progress
+  const fill = document.getElementById('prog-fill');
+  if (pct >= 80) fill.style.background = '#3a7d5c';
+  else if (pct >= 40) fill.style.background = '#c4952a';
+  else fill.style.background = '#d4521a';
+}
+
+function getSubjectDone(si) {
+  let done = 0, total = 0;
+  SUBJECTS[si].groups.forEach((g, gi) => {
+    g.tasks.forEach((t, ti) => {
+      total++;
+      if (state[`${si}-${gi}-${ti}`]) done++;
+    });
+  });
+  return { done, total };
+}
+
+function render() {
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  SUBJECTS.forEach((subject, si) => {
+    const { done, total } = getSubjectDone(si);
+    const isCollapsed = collapsed[si];
+
+    const card = document.createElement('div');
+    card.className = 'subject';
+    card.style.animationDelay = (si * 0.06) + 's';
+
+    // color bar
+    const bar = document.createElement('div');
+    bar.className = 'subject-bar';
+    bar.style.background = subject.color;
+    card.appendChild(bar);
+
+    // header
+    const top = document.createElement('div');
+    top.className = 'subject-top';
+    top.innerHTML = `
+      <div class="subject-dot" style="background:${subject.color}"></div>
+      <div class="subject-title-block">
+        <div class="subject-name">${subject.name}</div>
+        <div class="subject-code">${subject.code} &nbsp;·&nbsp; ${subject.marks}</div>
+      </div>
+      <span class="subject-badge" style="background:${subject.color}18;color:${subject.color};border:1px solid ${subject.color}40">${done}/${total}</span>
+      <span class="subject-chevron ${isCollapsed ? '' : 'open'}">▶</span>
+    `;
+    top.addEventListener('click', () => {
+      collapsed[si] = !collapsed[si];
+      render();
+    });
+    card.appendChild(top);
+
+    // body
+    const body = document.createElement('div');
+    body.className = 'subject-body' + (isCollapsed ? ' collapsed' : '');
+
+    subject.groups.forEach((group, gi) => {
+      const grpDiv = document.createElement('div');
+      grpDiv.className = 'group';
+
+      const grpName = document.createElement('div');
+      grpName.className = 'group-name';
+      grpName.textContent = group.name;
+      grpDiv.appendChild(grpName);
+
+      group.tasks.forEach((taskText, ti) => {
+        const id = `${si}-${gi}-${ti}`;
+        const isDone = !!state[id];
+
+        const taskEl = document.createElement('div');
+        taskEl.className = 'task' + (isDone ? ' done' : '');
+
+        const check = document.createElement('div');
+        check.className = 'task-check';
+        check.style.borderColor = isDone ? subject.color : '#ccc';
+        check.style.background = isDone ? subject.color : 'transparent';
+        check.textContent = isDone ? '✓' : '';
+
+        const text = document.createElement('div');
+        text.className = 'task-text';
+        text.textContent = taskText;
+
+        taskEl.appendChild(check);
+        taskEl.appendChild(text);
+
+        taskEl.addEventListener('click', () => {
+          state[id] = !state[id];
+          saveState(state);
+          render();
+          updateProgress();
+        });
+
+        grpDiv.appendChild(taskEl);
+      });
+
+      body.appendChild(grpDiv);
+    });
+
+    // bottom padding
+    const pad = document.createElement('div');
+    pad.style.height = '0.6rem';
+    body.appendChild(pad);
+
+    card.appendChild(body);
+    main.appendChild(card);
+  });
+
+  updateProgress();
+}
+
+render();
+</script>
+</body>
+</html>
