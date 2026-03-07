@@ -76,7 +76,7 @@ Just remember:
 1. Go to **Settings → Pages**
 2. Source → `main` branch, `/ (root)`
 3. Save
-4. Live at: `https://ivy-1602.github.io/sem4-tracker/uma_sem4.html`
+4. Live at: `https://ivy-1602.github.io/sem4-tracker/uma_semester4.html`
 
 Now you can check off assignments from your phone at 11pm while questioning your choices. Convenient.
 
