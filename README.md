@@ -1,18 +1,14 @@
 # 📓 Sem 4 Survival Kit
-> *One HTML file. Six subjects. Zero mental breakdowns (hopefully).*
+> *One HTML file. Six subjects. Zero over-burdening oneself (hopefully).*
+
+🔗 **Live at → [sem-4-survival-kit-semester-tracker-cyg5qbpu7.vercel.app](https://sem-4-survival-kit-semester-tracker-cyg5qbpu7.vercel.app)**
 
 ---
-
 ## What's This?
-
 My Semester 4 assignment tracker — a single `uma_sem4.html` file I built because my notes app wasn't cutting it and I needed to *see* how behind I was.
-
 Covers every practical, lab assignment, journal requirement, and mini project for **SE AI & ML, Semester IV (2024 Pattern, SPPU).**
-
 No frameworks. No npm. No existential crises about dependency versions.
-
 ---
-
 ## Subjects Inside
 
 | Code | Subject | What You're In For |
