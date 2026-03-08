@@ -118,4 +118,4 @@ Classic.
 
 *Made with 🧠 & mild panic*
 
-*P.S. — If you're reading this and it's the night before your practical exam: the journal format is Prologue → Certificate → Table of Contents → Write-ups. You're welcome.*
+*P.S. — If you're reading this and it's the night before your practical exam: the journal format is Prologue → Certificate → Table of Contents → Write-ups. You're welcome, Thank me later;).*
