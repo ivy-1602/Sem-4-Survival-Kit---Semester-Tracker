@@ -1,4 +1,4 @@
-# 📓 Sem 4 Survival Kit
+# 📓 Sem 4 Survival Kit .....
 > *One HTML file. Six subjects. Zero over-burdening oneself (hopefully).*
 
 🔗 **Live at → [sem-4-survival-kit-semester-tracker-cyg5qbpu7.vercel.app](https://sem-4-survival-kit-semester-tracker-cyg5qbpu7.vercel.app)**
