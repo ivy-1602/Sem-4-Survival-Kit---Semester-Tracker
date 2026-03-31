@@ -9,7 +9,7 @@ My Semester 4 assignment tracker — a single `uma_sem4.html` file I built becau
 Covers every practical, lab assignment, journal requirement, and mini project for **SE AI & ML, Semester IV (2024 Pattern, SPPU).**
 No frameworks. No npm. No existential crises about dependency versions.
 ---
-## Subjects Inside..
+## Subjects Inside
 
 | Code | Subject | What You're In For |
 |------|---------|-------------------|
